@@ -65,7 +65,7 @@ from sklearn.metrics import pairwise_distances
 #from sklearn.metrics import DistanceMetric
 
 
-import NNfunctions as nn
+#import NNfunctions as nn
 #seed(2)
 #from tensorflow import set_random_seed
 #set_random_seed(2)
@@ -125,16 +125,26 @@ print('Test accuracy:', score[1])
 print(history.history, file=open('History.txt', 'w'))
 
 y_pred = model.predict(x_test)
+t = categories*y_pred
+last =t.sum(axis=1)
+
 y_pred_train = model.predict(x_train)
 
 
-
+categories = np.unique(y_test_class)
 
 y_train_class = np.argmax(y_train, axis=1)
 y_pred_train_class = np.argmax(y_pred_train, axis=1)
 y_test_class = np.argmax(y_test, axis=1)
 y_pred_class = np.argmax(y_pred, axis=1)
-
+mean_absolute_error(last, y_test_class)
+mean_squared_error(last, y_test_class)
+results = np.mean(y_test_class)
+lasss= np.mean(last)
+llast = len(last)
+baseline  = np.tile(results, llast)
+base_mae = mean_absolute_error(last, baseline)
+base_mse = mean_squared_error(last, baseline)
 
 print(np.flatnonzero(y_test_class != y_pred_class),file=open('Flat.txt', 'w'))
 error= np.flatnonzero(y_test_class != y_pred_class)
